@@ -3,7 +3,7 @@
 
 #include "rect.h"
 
-class Horizontal: public Rectangle {
+class Horizontal : public Rectangle {
     public: 
         Horizontal(int square);
         int next();
@@ -18,12 +18,11 @@ int& Horizontal::operator[](int i){
         std::cout << "Out of range \n";
         return i;
     }
-    int *cur = grid
+    int *cur = grid->grid[][];
 
 }
 
 int Horizontal::next() {
-    return  
 }
 
 
