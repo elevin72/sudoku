@@ -5,7 +5,7 @@
 
 class Horizontal : public Rectangle {
     public: 
-        Horizontal(int square);
+        Horizontal(Puzzle *_puzzle, int _first);
         int next();
         int prev();
         virtual int operator++() = 0;
@@ -18,7 +18,7 @@ int& Horizontal::operator[](int i){
         std::cout << "Out of range \n";
         return i;
     }
-    int *cur = grid->grid[][];
+    int *cur = puzzle->grid[][];
 
 }
 
