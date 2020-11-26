@@ -16,18 +16,18 @@ class Sudoku {
                        {2,0,0,0,0,0,0,6,0}, {9,8,0,6,0,0,3,5,1}, {0,0,0,5,4,0,2,0,7},
                        {3,0,8,0,0,0,0,0,2}, {0,2,0,7,6,0,0,1,0}, {0,6,0,9,0,8,0,3,4}};
         Sudoku();
-        void inputByRow();
-        bool isSolved();
-        void print(); 
         void solve();
-        int solveSquare(int index);
-        int singleCanidate(int index);
+        /* void solveSquare(int index); */
+        void singleCanidate(int index);
+        bool isSolved();
         void horizontalScan(int index);
         void verticalScan(int index);
         void boxScan(int index);
         int firstBoxIndex(int index);
         int nextInBox(int index);
         void resetCanidateArrays();
+        void inputByRow();
+        void print(); 
 
        /* *h_rect getRectH(int x, int y); */
         /* *v_rect getRectV(int x, int y); */
@@ -53,13 +53,31 @@ class Sudoku {
         
 };
 
+Sudoku::Sudoku() {
+    top =         ("┏━━━┯━━━┯━━━┳━━━┯━━━┯━━━┳━━━┯━━━┯━━━┓");
+    middleThin =  ("┠───┼───┼───╂───┼───┼───╂───┼───┼───┨");
+    middleThick = ("┣━━━┿━━━┿━━━╋━━━┿━━━┿━━━╋━━━┿━━━┿━━━┫");
+    bottom     =  ("┗━━━┷━━━┷━━━┻━━━┷━━━┷━━━┻━━━┷━━━┷━━━┛");
+    thin       =  ("│");
+    thick      =  ("┃");
+    // maybe inputByRow() here?
+    inputByRow(); 
+    print();
+    std::cout <<"ok? \n";
+    char garbage;
+    std::cin >> garbage;
+    resetCanidateArrays();
+}
+
 void Sudoku::solve() {
-    int n, count = 0;
+    int count = 0;
     while (isSolved() == false) {
         print();
         std::cout << "cycle #" << count+1 << "\n";
         for (int i = 0; i < 81; ++i) {
-            solveSquare(i); // could we cache and update this information some how?
+            if (grid[0][i] == 0) {
+                singleCanidate(i);
+            }
         }
         if (count++ == 1000) {
             std::cout << "1000 cycles is too many.\n";
@@ -68,52 +86,27 @@ void Sudoku::solve() {
     }
 }
 
-void Sudoku::resetCanidateArrays() {
-    for (int i = 0; i < 9; ++i) {
-        hc[i] = vc[i] = bc[i] = true;
-    }
+// keep this function around, it could be useful if employing other strategies
+/* void Sudoku::solveSquare(int index){ */
+/*     int val = grid[0][index]; // for debugging */
+/*     if (grid[0][index] == 0) { */
+/*         singleCanidate(index); */
+/*     } */
+/*     // different methods to employ: */
+/*     // 1. Single canidate. check and see that no other number can go there */
+/*     // 2. Scan boxwise. where you eliminate rows and columns for a certain number */
+/*     // in a particular box, and are left with one option. Instead of asking What */
+/*     // number can go here, asking Where can I put this number? */
+/*     // 3. Deduce that although the particular placement is unknown, it's enough info */
+/*     // to figure out something else. */
+/*     // 4. More esoteric stuff called naked pairs, and x wings */
+/*     // stuff with rectangles */
+/*     // This is where the magic happens */
+/*     // check all three rectangles and see if we can find 8 numbers */
+/* } */
 
-}
 
-int Sudoku::nextInBox(int i) {
-    if ((i + 1) % 3 != 0)
-        return ++i;
-    else
-        return i+7; //!!
-}
-
-void Sudoku::boxScan(int index) {
-    int i,first = firstBoxIndex(index);
-    i = first;
-    for (; first < i + 21 /*??*/; first = nextInBox(first)) { // loop isnt ending
-        /* std::cout << "Log: b scan\n"; */
-        int val = grid[0][first];
-        if (val != 0)
-            bc[val-1] = false;
-    }
-}
-
-void Sudoku::verticalScan(int index) {
-    int first = index - (9 * (index / 9)); // integer division is not real division
-    for (; first < 81; first+=9) {
-        /* std::cout << "Log: v scan\n"; */
-        int val = grid[0][first];
-        if (val != 0)
-            vc[val-1] = false;
-    }
-}
-void Sudoku::horizontalScan(int index) {
-    int i, first = index - (index % 9);
-    i = first;
-    for (; first < i + 9; ++first) { // is this ok? It's definitely ugly
-        /* std::cout << "Log: h scan\n"; */
-        int val = grid[0][first];
-        if (val != 0) 
-            hc[val-1] = false;
-    }
-}
-
-int Sudoku::singleCanidate(int index) {
+void Sudoku::singleCanidate(int index) {
     horizontalScan(index);
     verticalScan(index);
     boxScan(index);
@@ -136,29 +129,53 @@ int Sudoku::singleCanidate(int index) {
         }
     }
     resetCanidateArrays();
-    return c;
+    grid[0][index] = c;;
 }
 
-int Sudoku::solveSquare(int index){
-    int val = grid[0][index]; // for debugging
-     if (grid[0][index] != 0) {
-        return index;
+bool Sudoku::isSolved() {
+    for (int i = 0; i < 81; ++i) {
+        /* std::cout << "Log: checking if solved\n"; */
+        if (grid[0][i] == 0)
+            return false;
     }
-    grid[0][index] = singleCanidate(index); // this is the dream
-    // different methods to employ:
-    // 1. Single canidate. check and see that no other number can go there
-    // 2. Scan boxwise. where you eliminate rows and columns for a certain number
-    // in a particular box, and are left with one option. Instead of asking What
-    // number can go here, asking Where can I put this number?
-    // 3. Deduce that although the particular placement is unknown, it's enough info
-    // to figure out something else.
-    // 4. More esoteric stuff called naked pairs, and x wings
-    // stuff with rectangles
-    // This is where the magic happens
-    // check all three rectangles and see if we can find 8 numbers
-
-
+    std::cout << "Solved!\n";
+    return true;
 }
+
+
+void Sudoku::horizontalScan(int index) {
+    int i, first = index - (index % 9);
+    i = first;
+    for (; first < i + 9; ++first) { // is this ok? It's definitely ugly
+        /* std::cout << "Log: h scan\n"; */
+        int val = grid[0][first];
+        if (val != 0) 
+            hc[val-1] = false;
+    }
+}
+
+
+void Sudoku::verticalScan(int index) {
+    int first = index - (9 * (index / 9)); // integer division is not real division
+    for (; first < 81; first+=9) {
+        /* std::cout << "Log: v scan\n"; */
+        int val = grid[0][first];
+        if (val != 0)
+            vc[val-1] = false;
+    }
+}
+
+void Sudoku::boxScan(int index) {
+    int i,first = firstBoxIndex(index);
+    i = first;
+    for (; first < i + 21 /*??*/; first = nextInBox(first)) { // loop isnt ending
+        /* std::cout << "Log: b scan\n"; */
+        int val = grid[0][first];
+        if (val != 0)
+            bc[val-1] = false;
+    }
+}
+
 
 int Sudoku::firstBoxIndex(int index) {
     if (index < 0 || index > 80)
@@ -201,20 +218,17 @@ int Sudoku::firstBoxIndex(int index) {
     }
 }
 
-Sudoku::Sudoku() {
-    top =         ("┏━━━┯━━━┯━━━┳━━━┯━━━┯━━━┳━━━┯━━━┯━━━┓");
-    middleThin =  ("┠───┼───┼───╂───┼───┼───╂───┼───┼───┨");
-    middleThick = ("┣━━━┿━━━┿━━━╋━━━┿━━━┿━━━╋━━━┿━━━┿━━━┫");
-    bottom     =  ("┗━━━┷━━━┷━━━┻━━━┷━━━┷━━━┻━━━┷━━━┷━━━┛");
-    thin       =  ("│");
-    thick      =  ("┃");
-    // maybe inputByRow() here?
-    /* inputByRow(); */ 
-    print();
-    std::cout <<"ok? \n";
-    char garbage;
-    std::cin >> garbage;
-    resetCanidateArrays();
+int Sudoku::nextInBox(int i) {
+    if ((i + 1) % 3 != 0)
+        return ++i;
+    else
+        return i+7; //!!
+}
+
+void Sudoku::resetCanidateArrays() {
+    for (int i = 0; i < 9; ++i) {
+        hc[i] = vc[i] = bc[i] = true;
+    }
 }
 
 void Sudoku::inputByRow() {
@@ -263,16 +277,6 @@ void Sudoku::print() {
         else 
             std::cout << middleThin << std::endl;
     }
-}
-
-bool Sudoku::isSolved() {
-    for (int i = 0; i < 81; ++i) {
-        /* std::cout << "Log: checking if solved\n"; */
-        if (grid[0][i] == 0)
-            return false;
-    }
-    std::cout << "Solved!\n";
-    return true;
 }
 
 #endif
