@@ -12,9 +12,24 @@ So **an** upper bound is O(9^n) where n is the number of empty squares in the pu
 
 f(0) = 9, f(80) = 1.
 
+|  n  |f(n)|
+|---- |----|
+|  0  | 9  |
+|  10 | 8  |
+|  20 | 7  |
+|  30 | 6  |
+|  40 | 5  |
+|  50 | 4  |
+|  60 | 3  |
+|  70 | 2  |
+|  80 | 1  |
+
+
 Domain: [0, 80]
 Range: [1, 9] 
 
 Then we could could say T(n) = T(n-1) * f(81 - n) <= T(n-1) * 9
+
+That is to say that we can consider f as a constant... But I guess if we do then we are still at 9^n. So really f(n) is much closer to one than I previously thought. (Otherwise my program would still be running).
 
 How to calculate this...?
