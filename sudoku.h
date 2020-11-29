@@ -5,7 +5,7 @@
 
 class Sudoku {
     public:
-        bool canidates[9], hc[9], vc[9], bc[9]; // for storing data about numbers in rects h,v and b
+        bool hc[9], vc[9], bc[9]; // for storing data about numbers in rects h,v and b
         int grid[9][9];/* = {{2,1,0,9,0,3,0,0,0},{0,0,0,0,7,1,8,0,0},{0,0,0,0,0,2,0,0,6},
                           {0,0,7,0,0,0,0,1,3},{6,0,0,0,0,0,0,5,7},{0,0,1,0,0,0,0,0,0},
                           {0,6,2,0,5,0,0,0,0},{0,0,0,6,0,0,4,0,0},{3,0,4,0,0,0,0,0,0}}; */
