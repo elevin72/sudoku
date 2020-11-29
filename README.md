@@ -15,6 +15,6 @@ f(0) = 9, f(80) = 1.
 Domain: [0, 80]
 Range: [1, 9] 
 
-Then we could could say T(n) = T(n-1) * f(81 - n) >= T(n-1) * 9
+Then we could could say T(n) = T(n-1) * f(81 - n) <= T(n-1) * 9
 
 How to calculate this...?
