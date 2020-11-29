@@ -33,3 +33,5 @@ Then we could could say T(n) = T(n-1) * f(81 - n) <= T(n-1) * 9
 That is to say that we can consider f as a constant... But I guess if we do then we are still at 9^n. So really f(n) is much closer to one than I previously thought. (Otherwise my program would still be running).
 
 How to calculate this...?
+
+By just looking at the number of time the recursive function is called (not by doing any actual complexity analysis it seems that the expected value of canidates as we go through and solve a solvable sudoku, is very close to 1, around 1.22. So maybe runtime is around 1.22^n ?
