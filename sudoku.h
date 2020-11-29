@@ -6,9 +6,9 @@
 class Sudoku {
     public:
         bool hc[9], vc[9], bc[9]; // for storing data about numbers in rects h,v and b
-        int grid[9][9];/* = {{2,1,0,9,0,3,0,0,0},{0,0,0,0,7,1,8,0,0},{0,0,0,0,0,2,0,0,6},
+        int grid[9][9] = {{2,1,0,9,0,3,0,0,0},{0,0,0,0,7,1,8,0,0},{0,0,0,0,0,2,0,0,6},
                           {0,0,7,0,0,0,0,1,3},{6,0,0,0,0,0,0,5,7},{0,0,1,0,0,0,0,0,0},
-                          {0,6,2,0,5,0,0,0,0},{0,0,0,6,0,0,4,0,0},{3,0,4,0,0,0,0,0,0}}; */
+                          {0,6,2,0,5,0,0,0,0},{0,0,0,6,0,0,4,0,0},{3,0,4,0,0,0,0,0,0}}; 
         Sudoku();
         void inputByRow();
         void print(); 
@@ -32,7 +32,7 @@ Sudoku::Sudoku() {
     thin       =  ("│");
     thick      =  ("┃");
     resetCanidateArrays();
-    inputByRow(); 
+    /* inputByRow(); */ 
     print();
     char trash;
     std::cout << "ok?\n";
@@ -41,19 +41,18 @@ Sudoku::Sudoku() {
 
 bool Sudoku::solveR(int index) {
     print();
-    int nextEmpty = index;
-    while (grid[0][nextEmpty] != 0 )
-        nextEmpty++;
-    if (nextEmpty > 80)
+    while (grid[0][index] != 0 )
+        index++;
+    if (index > 80)
         return true;
     for (int i = 0; i < 9; ++i) {
-        if (isValid(nextEmpty, i)) {
-            grid[0][nextEmpty] = i+1;
-            if (solveR(nextEmpty+1))
+        if (isValid(index, i)) {
+            grid[0][index] = i+1;
+            if (solveR(index+1))
                 return true;
         }
     }
-    grid[0][nextEmpty] = 0;
+    grid[0][index] = 0;
     return false;
 }
 
