@@ -1,6 +1,6 @@
 # Sudoku
 
-Solves sudoku puzzle. This project was done 100% independently, without looking at any other code.
+Solves sudoku puzzle. This project was done without looking at anybody elses code.
 
 The latest version solves any puzzle, with no noticable delay
 
