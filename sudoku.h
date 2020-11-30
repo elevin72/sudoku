@@ -68,29 +68,29 @@ bool Sudoku::isValid(int index, int i) {
 }
 
 void Sudoku::horizontalScan(int index) {
-    int i, first = index - (index % 9);
-    i = first;
-    for (; first < i + 9; ++first) {
-        int val = grid[0][first];
+    int end, val, first = index - (index % 9);
+    end = first + 9;
+    for (; first < end; ++first) {
+        val = grid[0][first];
         if (val != 0) 
             hc[val-1] = false;
     }
 }
 
 void Sudoku::verticalScan(int index) {
-    int first = index - (9 * (index / 9)); // integer division is not real division
+    int val, first = index - (9 * (index / 9)); // integer division is not real division
     for (; first < 81; first+=9) {
-        int val = grid[0][first];
+        val = grid[0][first];
         if (val != 0)
             vc[val-1] = false;
     }
 }
 
 void Sudoku::boxScan(int index) {
-    int i,first = firstBoxIndex(index);
-    i = first;
-    for (; first < i + 21; first = nextInBox(first)) {
-        int val = grid[0][first];
+    int end, val, first = firstBoxIndex(index);
+    end = first + 21;
+    for (; first < end; first = nextInBox(first)) {
+        val = grid[0][first];
         if (val != 0)
             bc[val-1] = false;
     }
