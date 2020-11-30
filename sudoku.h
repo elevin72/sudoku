@@ -6,7 +6,7 @@
 class Sudoku {
     public:
         bool hc[9], vc[9], bc[9]; // for storing data about numbers in rects h,v and b
-        int grid[9][9]; /* = {{2,1,0,9,0,3,0,0,0},{0,0,0,0,7,1,8,0,0},{0,0,0,0,0,2,0,0,6},
+        int grid[9][9]/* = {{2,1,0,9,0,3,0,0,0},{0,0,0,0,7,1,8,0,0},{0,0,0,0,0,2,0,0,6},
                           {0,0,7,0,0,0,0,1,3},{6,0,0,0,0,0,0,5,7},{0,0,1,0,0,0,0,0,0},
                           {0,6,2,0,5,0,0,0,0},{0,0,0,6,0,0,4,0,0},{3,0,4,0,0,0,0,0,0}}; */
         Sudoku();
@@ -40,7 +40,6 @@ Sudoku::Sudoku() {
 }
 
 bool Sudoku::solveR(int index) {
-    print();
     while (grid[0][index] != 0 )
         index++;
     if (index > 80)
@@ -54,6 +53,12 @@ bool Sudoku::solveR(int index) {
     }
     grid[0][index] = 0;
     return false;
+}
+
+void Sudoku::resetCanidateArrays() {
+    for (int i = 0; i < 9; ++i) {
+        hc[i] = vc[i] = bc[i] = true;
+    }
 }
 
 bool Sudoku::isValid(int index, int i) {
@@ -136,12 +141,6 @@ int Sudoku::nextInBox(int i) {
         return ++i;
     else
         return i+7;
-}
-
-void Sudoku::resetCanidateArrays() {
-    for (int i = 0; i < 9; ++i) {
-        hc[i] = vc[i] = bc[i] = true;
-    }
 }
 
 void Sudoku::inputByRow() {
