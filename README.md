@@ -2,7 +2,7 @@
 
 Solves sudoku puzzle. This project was done 100% independently, without looking at any other code.
 
-The latest version solves any puzzle, but with a decent delay for harder puzzles (5-7 seconds). There are definitely ways to get this delay much smaller.
+The latest version solves any puzzle, with no noticable delay
 
 ## Complexity
 
@@ -34,4 +34,3 @@ That is to say that we can consider f as a constant... But I guess if we do then
 
 How to calculate this...?
 
-By just looking at the number of time the recursive function is called (not by doing any actual complexity analysis it seems that the expected value of canidates as we go through and solve a solvable sudoku, is very close to 1, around 1.22. So maybe runtime is around 1.22^n ?
