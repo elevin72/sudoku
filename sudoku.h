@@ -137,10 +137,11 @@ int Sudoku::firstBoxIndex(int index) {
 }
 
 int Sudoku::nextInBox(int i) {
-    if ((i + 1) % 3 != 0)
+    return ( ( (i+1) % 3 ) ? i+7 : ++i);
+    /*if ((i + 1) % 3 != 0)
         return ++i;
     else
-        return i+7;
+        return i+7; */
 }
 
 void Sudoku::inputByRow() {
