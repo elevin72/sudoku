@@ -5,7 +5,7 @@ int main() {
     Sudoku sudoku;
     sudoku.solveR(0); 
     sudoku.print();
-    std::cout << Sudoku::count << std::endl;
+    std::cout << "Took " << Sudoku::count << " guesses." << std::endl;
 }
 
 

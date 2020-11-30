@@ -5,8 +5,9 @@
 
 class Sudoku {
     public:
+        static int count;
         bool hc[9], vc[9], bc[9]; // for storing data about numbers in rects h,v and b
-        int grid[9][9]/* = {{2,1,0,9,0,3,0,0,0},{0,0,0,0,7,1,8,0,0},{0,0,0,0,0,2,0,0,6},
+        int grid[9][9];/* = {{2,1,0,9,0,3,0,0,0},{0,0,0,0,7,1,8,0,0},{0,0,0,0,0,2,0,0,6},
                           {0,0,7,0,0,0,0,1,3},{6,0,0,0,0,0,0,5,7},{0,0,1,0,0,0,0,0,0},
                           {0,6,2,0,5,0,0,0,0},{0,0,0,6,0,0,4,0,0},{3,0,4,0,0,0,0,0,0}}; */
         Sudoku();
@@ -40,6 +41,7 @@ Sudoku::Sudoku() {
 }
 
 bool Sudoku::solveR(int index) {
+    count++;
     while (grid[0][index] != 0 )
         index++;
     if (index > 80)
@@ -137,11 +139,7 @@ int Sudoku::firstBoxIndex(int index) {
 }
 
 int Sudoku::nextInBox(int i) {
-    return ( ( (i+1) % 3 ) ? i+7 : ++i);
-    /*if ((i + 1) % 3 != 0)
-        return ++i;
-    else
-        return i+7; */
+    return ( ( (i+1) % 3 ) ? ++i : i+7 ); // some dumb math
 }
 
 void Sudoku::inputByRow() {
