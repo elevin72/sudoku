@@ -12,17 +12,7 @@ So **an** upper bound is O(9^n) where n is the number of empty squares in the pu
 
 f(0) = 9, f(80) = 1.
 
-|  n  |f(n)|
-|---- |----|
-|  0  | 9  |
-|  10 | 8  |
-|  20 | 7  |
-|  30 | 6  |
-|  40 | 5  |
-|  50 | 4  |
-|  60 | 3  |
-|  70 | 2  |
-|  80 | 1  |
+But even as n approaches 80 it is already very close to 1. For instance if you have 70 squares filled in then the last 10 have exactly 1 canidate.
 
 
 Domain: [0, 80]
